@@ -12,9 +12,8 @@ phases:
       - echo "✅ Approval status: $APPROVAL"
       - |
         if [ "$APPROVAL" = "YES" ]; then
-          echo "⚠️ Stopping EC2 instance..."
-          aws ec2 stop-instances --instance-ids i-0xxxxxxxxxxxxxx --region ap-south-1
+          echo "⚠️ Approval is YES. Stopping EC2..."
+          aws ec2 stop-instances --instance-ids i-03a5dc2c4f355a1e7 --region ap-south-1
         else
-          echo "✅ Approval is NO. Instance will not be stopped."
+          echo "✅ Approval is NO. EC2 will not be stopped."
         fi
-
