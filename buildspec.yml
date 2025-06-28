@@ -1,0 +1,19 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.9
+  build:
+    commands:
+      - echo "🔁 Checking approval from S3..."
+      - aws s3 cp s3://ec2-approval-bucket/approval.txt approval.txt
+      - APPROVAL=$(cat approval.txt)
+      - echo "✅ Approval status: $APPROVAL"
+      - |
+        if [ "$APPROVAL" = "YES" ]; then
+          echo "⚠️ Stopping EC2 instance..."
+          aws ec2 stop-instances --instance-ids i-0xxxxxxxxxxxxxx --region ap-south-1
+        else
+          echo "✅ Approval is NO. Instance will not be stopped."
+        fi
